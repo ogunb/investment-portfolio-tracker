@@ -1,6 +1,26 @@
 import { PdfReader } from "pdfreader";
 import fs from "fs";
 
+type MidasJson = {
+  date: string;
+  balance: string;
+  totalPortfolioValue: string;
+  summary: {
+    stock: string;
+    quantity: string;
+    price: string;
+    profitLoss: string;
+    totalValue: string;
+  }[];
+  transactions: {
+    demandDate: string;
+    transactionDate: string;
+    type: string;
+    status: string;
+    amount: string;
+  }[];
+};
+
 function generateDate(pdf: string[]) {
   const index = pdf.indexOf("PORTFÖY ÖZETİ (") + 1;
   const date = pdf[index];
@@ -90,7 +110,7 @@ function generateTransactions(pdf: string[]) {
   return transactions;
 }
 
-async function generateJson(path: string) {
+async function generateJson(path: string): Promise<MidasJson> {
   let pdf: string[] = [];
 
   return new Promise((resolve, reject) => {
@@ -133,10 +153,20 @@ async function generateJson(path: string) {
   });
 }
 
+let promises: Promise<MidasJson>[] = [];
 fs.readdirSync("portfolio/midas/pdf").forEach(async (file) => {
   if (file.endsWith(".pdf")) {
-    console.log(`Generating JSON for ${file}`);
-    await generateJson(`portfolio/midas/pdf/${file}`);
-    console.log(`Generated JSON for ${file}`);
+    console.info(`Started generating JSON for ${file}`);
+    promises.push(generateJson(`portfolio/midas/pdf/${file}`));
   }
+});
+
+console.info("Started generating all.json");
+Promise.all(promises).then((data) => {
+  fs.writeFileSync(
+    "portfolio/midas/json/.all.json",
+    JSON.stringify(data, null, 2)
+  );
+
+  console.info("Finished generating all.json");
 });
