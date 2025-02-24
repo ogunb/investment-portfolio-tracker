@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/chart";
 import { usdToNumber } from "@/lib/midas";
 import { MidasData } from "@/types/midas";
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 type ProfitLossProps = {
   midasData: MidasData;
