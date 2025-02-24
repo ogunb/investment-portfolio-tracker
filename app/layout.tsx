@@ -10,7 +10,7 @@ export default function RootLayout({
     <>
       <html lang="en" suppressHydrationWarning>
         <head />
-        <body className="py-4 px-6">
+        <body className="p-4">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

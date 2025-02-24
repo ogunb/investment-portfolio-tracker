@@ -17,10 +17,10 @@ import { usdToNumber } from "@/lib/midas";
 import { MidasData } from "@/types/midas";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
 
-type MonthlyProfitLossProps = {
+type ProfitLossProps = {
   midasData: MidasData;
 };
-export function MonthlyProfitLoss({ midasData }: MonthlyProfitLossProps) {
+export function ProfitLoss({ midasData }: ProfitLossProps) {
   const chartData = midasData.map((data) => {
     const date = new Intl.DateTimeFormat("tr-TR", {
       month: "short",
