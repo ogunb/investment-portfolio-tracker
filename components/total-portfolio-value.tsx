@@ -17,28 +17,25 @@ import { usdToNumber } from "@/lib/midas";
 import { MidasData } from "@/types/midas";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
 
-type MonthlyProfitLossProps = {
+type TotalPortfolioValueProps = {
   midasData: MidasData;
 };
-export function MonthlyProfitLoss({ midasData }: MonthlyProfitLossProps) {
+export function TotalPortfolioValue({ midasData }: TotalPortfolioValueProps) {
   const chartData = midasData.map((data) => {
     const date = new Intl.DateTimeFormat("tr-TR", {
       month: "short",
       year: "numeric",
     }).format(new Date(data.date));
-    const totalProfitLoss = data.summary.reduce((acc, stock) => {
-      return acc + usdToNumber(stock.profitLoss);
-    }, 0);
 
     return {
       date,
-      profitLoss: totalProfitLoss,
+      value: usdToNumber(data.totalPortfolioValue),
     };
   });
 
   const chartConfig = {
-    profitLoss: {
-      label: "Profit/Loss",
+    value: {
+      label: "Total Portfolio Value",
       color: "hsl(var(--chart-1))",
     },
   } satisfies ChartConfig;
@@ -46,8 +43,8 @@ export function MonthlyProfitLoss({ midasData }: MonthlyProfitLossProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Monthly Profit Loss</CardTitle>
-        <CardDescription>{chartData.at(-1)?.profitLoss} USD</CardDescription>
+        <CardTitle>Total Portfolio Value</CardTitle>
+        <CardDescription>{chartData.at(-1)?.value} USD</CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -75,8 +72,8 @@ export function MonthlyProfitLoss({ midasData }: MonthlyProfitLossProps) {
             />
             <Line
               type="natural"
-              dataKey="profitLoss"
-              stroke="var(--color-profitLoss)"
+              dataKey="value"
+              stroke="var(--color-value)"
               strokeWidth={2}
               dot={false}
             ></Line>

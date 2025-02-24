@@ -1,4 +1,5 @@
 import { MonthlyProfitLoss } from "@/components/monthly-profit-loss";
+import { TotalPortfolioValue } from "@/components/total-portfolio-value";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
@@ -11,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getAllMidasData, usdToNumber } from "@/lib/midas";
-import { MidasSummary } from "@/types/midas";
+import { MidasData, MidasSummary } from "@/types/midas";
 
 type StockListProps = {
   summary: MidasSummary;
@@ -79,7 +80,7 @@ export default function Home() {
       <div className="grid grid-cols-2 gap-4">
         <MonthlyProfitLoss midasData={midasData} />
 
-        <div>asd</div>
+        <TotalPortfolioValue midasData={midasData} />
       </div>
 
       <StockList summary={latestMidasData?.summary} />
