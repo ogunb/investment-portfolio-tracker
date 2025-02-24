@@ -9,8 +9,10 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-/midas/*
-!/midas/.gitkeep
+/portfolio/*/json/*
+/portfolio/*/pdf/*
+!/portfolio/*/json/.gitkeep
+!/portfolio/*/pdf/.gitkeep
 
 # testing
 /coverage
