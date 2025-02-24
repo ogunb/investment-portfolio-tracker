@@ -46,7 +46,7 @@ export function ProfitLoss({ midasData }: ProfitLossProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Monthly Profit Loss</CardTitle>
+        <CardTitle>Profit Loss</CardTitle>
         <CardDescription>{chartData.at(-1)?.profitLoss} USD</CardDescription>
       </CardHeader>
 
