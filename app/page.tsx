@@ -1,3 +1,4 @@
+import { MonthlyProfitLoss } from "@/components/monthly-profit-loss";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
@@ -9,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllMidasData } from "@/lib/midas";
+import { getAllMidasData, usdToNumber } from "@/lib/midas";
 import { MidasSummary } from "@/types/midas";
 
 type StockListProps = {
@@ -18,9 +19,7 @@ type StockListProps = {
 function StockList({ summary }: StockListProps) {
   const total = summary
     .reduce((acc, stock) => {
-      return (
-        acc + Number(stock.totalValue.replace(" USD", "").replace(",", "."))
-      );
+      return acc + usdToNumber(stock.totalValue);
     }, 0)
     .toFixed(2);
 
@@ -71,11 +70,19 @@ export default function Home() {
 
   const latestMidasData = midasData.at(-1);
 
+  if (!latestMidasData) {
+    return <div>No data found.</div>;
+  }
+
   return (
-    <div>
-      {latestMidasData ? (
-        <StockList summary={latestMidasData?.summary} />
-      ) : null}
+    <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-2 gap-4">
+        <MonthlyProfitLoss midasData={midasData} />
+
+        <div>asd</div>
+      </div>
+
+      <StockList summary={latestMidasData?.summary} />
     </div>
   );
 }
